@@ -63,7 +63,7 @@ async function init() {
     // *  Generate token
     // * ------------------------
     const secret = "my supper secret";
-    let message = { message: "Authenticate this message." };
+    let message = { message: "Authenticate this message.", role :"member" };
 
     // * Default token
     let token = jwt.sign(message, secret);

@@ -35,10 +35,13 @@ class LoginService {
         aud: config.jwt.audience || "localhost/api",
         iss: config.jwt.issuer || "localhost@fesb",
       };
+
       
       const token = this.generateToken(payload);
       return {user, token};
     }
+    this.logger.error("Invalid password");
+      throw new error("Authentication failed");
   }
   generateToken(payload){
     return jwt.sign(payload, config.jwt.secret, {

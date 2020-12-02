@@ -1,5 +1,5 @@
 const express = require("express");
-const jwt=require("express-jwt");
+const jwt = require("express-jwt");
 const cors = require("cors");
 const config = require("../config");
 const routes = require("../api");
@@ -14,7 +14,8 @@ module.exports = ({ app, HttpLogger: logger }) => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-app.use(jwt({
+app.use(
+  jwt({
   secret: config.jwt.secret,
   algorithms: config.jwt.algorithms,
 
@@ -39,8 +40,8 @@ app.use(jwt({
   // ultimate error handler
   app.use((err, req, res, next) => {
     if(err.name === "UnauthorizedError"){
-      err.status - 401;
-      err.message - "Not authorized (invalid token);"
+      err.status = 401;
+      err.message = "Not authorized (invalid token)";
     }
     res.status(err.status || 500).json({
       error: {

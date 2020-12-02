@@ -1,4 +1,5 @@
 //login.service.js
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 class LoginService {
@@ -24,7 +25,9 @@ class LoginService {
     }
     
     this.logger.info("Checking password");
-    if(userRecord.password === password){
+    const validPassword=await bcrypt.compare(password, userRecord.password);
+
+    if(validPassword){
       this.logger.info("Password correct");
       const user = {
         username: userRecord.username,
@@ -41,7 +44,7 @@ class LoginService {
       return {user, token};
     }
     this.logger.error("Invalid password");
-      throw new error("Authentication failed");
+      throw new Error("Authentication failed");
   }
   generateToken(payload){
     return jwt.sign(payload, config.jwt.secret, {

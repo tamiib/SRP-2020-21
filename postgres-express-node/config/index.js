@@ -1,4 +1,4 @@
-//index.js u config
+//index.js
 const dotenv = require("dotenv");
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 const envFound = dotenv.config();
@@ -22,17 +22,23 @@ module.exports = {
   api: {
     prefix: "/api",
   },
+
   jwt:{
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_DURATION || "1h",
-    algorithms:["HS256"],
-    exclude:{
-       path :[
-         { 
-           url:"/api/login",
-            methods:[ "POST"],
-          },
-        ],
-      },
+    algorithms: ["HS256"],
+    exclude: {
+      path: [
+        {
+          url: "/api/login",
+          methods: ["POST"],
+        },
+      ],
+    },
   },
+
+
+bcrypt:{
+  SALT_ROUNDS: process.env.SALT_ROUNDS || 12,
+},
 };

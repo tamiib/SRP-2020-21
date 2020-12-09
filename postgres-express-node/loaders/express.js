@@ -1,3 +1,4 @@
+//express.js
 const express = require("express");
 const jwt = require("express-jwt");
 const cors = require("cors");
@@ -14,19 +15,17 @@ module.exports = ({ app, HttpLogger: logger }) => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-app.use(
-  jwt({
-  secret: config.jwt.secret,
-  algorithms: config.jwt.algorithms,
-
-}).unless(config.jwt.exclude)
-);
+  app.use(
+    jwt({
+      algorithms: config.jwt.algorithms,
+      secret: config.jwt.secret,
+    }).unless(config.jwt.exclude)
+  );
   //---------------------------
   // LOAD/MOUNT API ROUTES
   // (path prefix e.g. /api)
   //---------------------------
   app.use(config.api.prefix, routes());
-
   //---------------------------
   // ERROR HANDLERS
   //---------------------------
@@ -36,7 +35,6 @@ app.use(
     err.status = 404;
     next(err);
   });
-
   // ultimate error handler
   app.use((err, req, res, next) => {
     if(err.name === "UnauthorizedError"){

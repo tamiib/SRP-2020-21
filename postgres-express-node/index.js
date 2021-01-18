@@ -4,7 +4,6 @@ const {
   ForbiddenError,
   subject,
 } = require("@casl/ability");
-
 // * =============================
 // *  Users
 // * -----------------------------
@@ -13,7 +12,6 @@ const doctor = { id: 2, role: "doctor" };
 const user_1 = { id: 3, role: "user" };
 const user_2 = { id: 4, role: "user" };
 const anonymous = null;
-
 // * =============================
 // *  MedicalTests
 // * -----------------------------
@@ -24,9 +22,7 @@ const MedicalTest_1 = subject("MedicalTest", {
   result: "negative",
   createdAt: new Date().setHours(0, 0, 0),
 });
-
 console.log(MedicalTest_1.__caslSubjectType__);
-
 const MedicalTest_2 = subject("MedicalTest", {
   id: 2,
   UserId: 2,
@@ -34,7 +30,6 @@ const MedicalTest_2 = subject("MedicalTest", {
   result: "positive",
   createdAt: new Date().setHours(0, 0, 0),
 });
-
 const MedicalTest_3 = subject("MedicalTest", {
   id: 3,
   UserId: 3,
@@ -42,7 +37,6 @@ const MedicalTest_3 = subject("MedicalTest", {
   result: "positive",
   createdAt: new Date().setHours(0, 0, 0),
 });
-
 const MedicalTest_4 = subject("MedicalTest", {
   id: 4,
   UserId: 3,
@@ -50,7 +44,6 @@ const MedicalTest_4 = subject("MedicalTest", {
   result: "positive",
   createdAt: new Date().setHours(0, 0, 0),
 });
-
 const MedicalTest_5 = subject("MedicalTest", {
   id: 5,
   UserId: 4,
@@ -58,20 +51,24 @@ const MedicalTest_5 = subject("MedicalTest", {
   result: "positive",
   createdAt: new Date().setHours(0, 0, 0),
 });
-
 // * =============================
 // *  Roles <--> permissions
 // * -----------------------------
-function defineAdminRules({ can }, user) {}
+function defineAdminRules({ can }, user) {
+  can('manage', 'all');
+}
 function defineDoctorRules({ can }, user) {}
-function defineUserRules({ can }, user) {}
+function defineUserRules({ can }, user) {
+  can("create", "MedicalTest", {UserId: user.id});
+  can("read", "MedicalTest", {UserId: user.id});
+  can("update", "MedicalTest", {UserId: user.id});
+  can("delete", "MedicalTest", {UserId: user.id});
+}
 function defineAnonymousRules({ can }, user) {}
-
 // * =============================
 // *  CASL rules for user
 // * -----------------------------
 function defineRulesFor(user) {}
-
 // * =============================
 // *  CASL abilities for user
 // * -----------------------------

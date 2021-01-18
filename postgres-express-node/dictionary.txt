@@ -1293,4 +1293,4 @@ zirconium
 zodiac
 zombie
 zookeeper
-zucchini
+zucc
